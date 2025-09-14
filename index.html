@@ -390,6 +390,37 @@
       return c;
     }
 
+    function toYouTubeEmbed(u) {
+      try {
+        const url = new URL(u);
+        const host = url.hostname;
+        if (host.includes('youtu.be')) {
+          const id = url.pathname.slice(1);
+          const start = ytStartParam(url);
+          return `https://www.youtube.com/embed/${id}${start}`;
+        }
+        if (host.includes('youtube') && url.pathname.startsWith('/watch')) {
+          const id = url.searchParams.get('v');
+          const start = ytStartParam(url);
+          return id ? `https://www.youtube.com/embed/${id}${start}` : u;
+        }
+        if (host.includes('youtube') && url.pathname.startsWith('/embed/')) {
+          return u;
+        }
+      } catch {}
+      return u;
+    }
+    function ytStartParam(url) {
+      const t = url.searchParams.get('t') || url.searchParams.get('start');
+      if (!t) return '';
+      const m = String(t).match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?|^\d+$/);
+      if (!m) return '';
+      if (/^\d+$/.test(t)) return `?start=${t}`;
+      const h = parseInt(m[1] || 0, 10), mn = parseInt(m[2] || 0, 10), s = parseInt(m[3] || 0, 10);
+      const total = (h*3600) + (mn*60) + s;
+      return total ? `?start=${total}` : '';
+    }
+    
     function renderPreviews() {
       const grid = qs('#previewsGrid');
       grid.innerHTML = '';
@@ -400,7 +431,18 @@
         const desc = item.desc?.[state.lang] || item.desc?.en || '';
         let media = '';
         if (item.type === 'youtube') {
-          media = `<div class="media"><iframe src="${item.src}" title="YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;
+          const embed = toYouTubeEmbed(item.src);
+          media = `
+            <div class="media">
+              <iframe
+                src="${embed}"
+                title="YouTube"
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                frameborder="0"></iframe>
+            </div>`;
         } else if (item.type === 'image') {
           media = `<div class="media"><img src="${item.src}" alt="preview" loading="lazy"/></div>`;
         } else if (item.type === 'link') {
