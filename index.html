@@ -297,6 +297,7 @@
       });
       qs('#brandText').textContent = (lang === 'ar') ? (PROFILE.brand || 'حازم') : (PROFILE.brand_en || 'Hazem');
       renderProfile();
+      renderPreviews();
     }
 
     const io = new IntersectionObserver((entries) => {
