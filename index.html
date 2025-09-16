@@ -215,7 +215,7 @@
     const GH_USERNAME = "ISKinGeR"; 
 
     const FEATURED_REPOS = [
-      "Mythic-gangs", "KR-ahs"
+      "Mythic-gangs", "mythic-inventory", "KR-ahs"
     ];
 
     const REPO_BLACKLIST = [
@@ -309,14 +309,22 @@
       const cached = localStorage.getItem(cacheKey);
       const now = Date.now();
       if (cached) {
-        try { const { t, data } = JSON.parse(cached); if (now - t < 3600_000) return data; } catch {}
+        try { 
+          const { t, data } = JSON.parse(cached); 
+          if (now - t < 3600_000) return data; 
+        } catch {}
       }
+    
       const url = `https://api.github.com/users/${GH_USERNAME}/repos?per_page=100&sort=updated`;
       const res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
       if (!res.ok) throw new Error('GitHub API error: ' + res.status);
+    
       const data = await res.json();
       const filtered = data.filter(r => !r.private && !r.fork && !r.archived && !REPO_BLACKLIST.includes(r.name));
-      filtered.sort((a,b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)));
+    
+      // 🔥 Sort strictly newest → oldest
+      filtered.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+    
       localStorage.setItem(cacheKey, JSON.stringify({ t: now, data: filtered }));
       return filtered;
     }
