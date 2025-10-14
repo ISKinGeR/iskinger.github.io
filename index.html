@@ -1,601 +1,505 @@
-<!doctype html>
-<html lang="en" dir="rtl" data-theme="midnight">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IamKR</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KR</title>
+  <meta name="description" content="حازم (KR)" />
+  <link rel="icon" href="https://cdn.discordapp.com/avatars/272637834194714626/96fbee6b6c4023332797881b73ba6fa1.png" />
+  <link rel="preconnect" href="https://api.github.com" crossorigin>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg: #0b1220;
-      --bg-2: #0e1526;
-      --card: rgba(255,255,255,0.04);
-      --text: #e6eef8;
-      --muted: #a8b3cf;
-      --brand: #7dd3fc;
-      --brand-2: #c052ff;
-      --accent: #22d3ee;
-      --ok: #34d399;
-      --warn: #f59e0b;
-      --danger: #ef4444;
-      --shadow: 0 12px 38px rgba(2,6,23,0.55);
-      --radius: 16px;
-      --container: 1120px;
-      --ease: cubic-bezier(.2,.8,.2,1);
-      --card-w: min(360px, 92vw);
-      --card-h: clamp(280px, 40vh, 320px);
+      --primary: #0099ff;
+      --primary-glow: 0 153 255;
+      --card-hover: rgba(0,153,255,.08);
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --text-muted: #707070;
+      --bg-main: #000000;
+      --bg-card: rgba(255,255,255,.03);
+      --border: rgba(255,255,255,.08);
+      --border-hover: rgba(0,153,255,.5);
     }
-
-    html, body {
-      height: 100%;
-      scroll-behavior: smooth;
-      background: radial-gradient(1600px 800px at 50% -10%, #0f1b33, var(--bg));
-      color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,.05); }
+    ::-webkit-scrollbar-thumb { background: rgba(var(--primary-glow), .30); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(var(--primary-glow), .50); }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Arabic', sans-serif; background: var(--bg-main); color: var(--text-primary); overflow-x: hidden; position: relative; line-height: 1.6; }
+    body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at top, rgba(var(--primary-glow), .10) 0%, transparent 50%), radial-gradient(ellipse at bottom, rgba(var(--primary-glow), .05) 0%, transparent 50%); pointer-events: none; z-index: -1; animation: bgPulse 15s ease-in-out infinite; }
+    @keyframes bgPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+    .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 3px; background: linear-gradient(90deg, var(--primary), #66ccff); z-index: 9999; transition: width 0.1s ease; box-shadow: 0 0 10px rgba(0,153,255,.5); }
+    .particle { position: absolute; width: 4px; height: 4px; background: rgba(var(--primary-glow), .60); border-radius: 50%; animation: float linear infinite; box-shadow: 0 0 10px rgba(var(--primary-glow), .30); }
+    @keyframes float { from { transform: translateY(100vh) translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } to { transform: translateY(-100vh) translateX(100px); opacity: 0; } }
+    .header { background: rgba(10,10,10,.8); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; transition: all .6s cubic-bezier(.4,0,.2,1); }
+    .header.scrolled { background: rgba(10,10,10,.95); box-shadow: 0 10px 40px rgba(0,0,0,.5), 0 1px 0 rgba(0,153,255,.2); }
+    .nav-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+    .logo { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; cursor: pointer; transition: transform .3s ease; }
+    .logo:hover { transform: scale(1.05); }
+    .logo img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); animation: logoGlow 3s ease-in-out infinite; }
+    @keyframes logoGlow { 0%, 100% { box-shadow: 0 0 20px rgba(var(--primary-glow),.4); } 50% { box-shadow: 0 0 30px rgba(var(--primary-glow),.6), 0 0 60px rgba(var(--primary-glow),.2); } }
+    .nav-menu { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-link { color: var(--text-primary); text-decoration: none; font-weight: 500; position: relative; padding: 4px 0; transition: color .3s ease; opacity: .9; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), #66ccff); transition: width .4s cubic-bezier(.4,0,.2,1); }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .nav-link:hover, .nav-link.active { color: var(--primary); opacity: 1; }
+    .lang-btn { background: rgba(0,153,255,.1); border: 1px solid rgba(0,153,255,.3); color: #8bd3ff; border-radius: 10px; padding: 8px 16px; cursor: pointer; font-weight: 600; transition: all .3s ease; position: relative; overflow: hidden; }
+    .lang-btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(0,153,255,.2); border-radius: 50%; transform: translate(-50%, -50%); transition: width .4s ease, height .4s ease; }
+    .lang-btn:hover::before { width: 100px; height: 100px; }
+    .lang-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,153,255,.3); border-color: var(--primary); }
+    .hero { max-width: 1200px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; min-height: 75vh; position: relative; }
+    .hero-content h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 20px; background: linear-gradient(135deg, #fff 0%, #8bd3ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: textGlow 3s ease-in-out infinite; }
+    @keyframes textGlow { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.2) drop-shadow(0 0 20px rgba(0,153,255,.5)); } }
+    .hero-content p { color: var(--text-secondary); font-size: 1.1rem; animation: fadeInUp .8s ease .2s both; }
+    .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
+    .hero-img-wrapper { position: relative; width: 80%; max-width: 280px; }
+    .hero-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 24px; filter: saturate(1.05) brightness(1.05); box-shadow: 0 20px 60px rgba(0,153,255,.3); transition: transform .6s ease, box-shadow .6s ease; }
+    .hero-img:hover { transform: scale(1.03); box-shadow: 0 32px 80px rgba(0,153,255,.3); }
+    @keyframes floatElement { 0%, 100% { transform: translateY(0) rotate(0deg); } 33% { transform: translateY(-10px) rotate(2deg); } 66% { transform: translateY(10px) rotate(-2deg); } }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; position: relative; transition: all .4s cubic-bezier(.4,0,.2,1); overflow: hidden; cursor: pointer; }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, transparent, rgba(0,153,255,.1)); opacity: 0; transition: opacity .4s ease; pointer-events: none; }
+    .card:hover::before { opacity: 1; }
+    .card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,153,255,.1) 0%, transparent 70%); opacity: 0; transition: opacity .4s ease; pointer-events: none; }
+    .card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--border-hover); box-shadow: 0 20px 60px rgba(0,153,255,.15), 0 10px 20px rgba(0,0,0,.2); }
+    .card:hover::after { opacity: 1; animation: cardPulse 2s ease-in-out infinite; }
+    @keyframes cardPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .plan-header { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+    .plan-icon { width: 42px; height: 42px; padding: 8px; background: rgba(0,153,255,.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .plan-type { font-size: .85rem; color: #8bd3ff; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .lang-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-inline-end: 6px; box-shadow: 0 0 10px currentColor; }
+    .plan-title { font-size: 1.3rem; font-weight: 800; margin-top: 4px; transition: color .3s ease; }
+    .card:hover .plan-title { color: var(--primary); }
+    .plan-desc { color: #cfd6e4; margin: 12px 0 16px; line-height: 1.6; min-height: 48px; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 12px; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,153,255,.12); color: #8bd3ff; padding: 6px 14px; border-radius: 20px; font-size: .85rem; border: 1px solid rgba(0,153,255,.2); transition: all .3s ease; }
+    .badge:hover { background: rgba(0,153,255,.2); transform: translateY(-2px); }
+    .mini-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 20px; font-size: .85rem; text-decoration: none; border: 1px solid rgba(0,153,255,.3); background: rgba(0,153,255,.1); color: #8bd3ff; font-weight: 600; transition: all .3s ease; position: relative; overflow: hidden; isolation: isolate; }
+    .mini-btn::before { z-index: -1; pointer-events: none; content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: var(--primary); border-radius: 50%; transform: translate(-50%, -50%); transition: width .4s ease, height .4s ease; }
+    .mini-btn:hover::before { width: 100px; height: 100px; }
+    .mini-btn:hover { color: #000; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(34, 197, 94, 0.4); z-index: 1; }
+    .mini-btn span { position: relative; z-index: 1; }
+    .topics { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .topic { background: rgba(255,255,255,.06); color: #cfe6ff; border: 1px solid rgba(255,255,255,.15); padding: 4px 12px; border-radius: 16px; font-size: .8rem; transition: all .3s ease; }
+    .topic:hover { background: rgba(0,153,255,.15); border-color: rgba(0,153,255,.3); transform: translateY(-2px); }
+    .clip-card { background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03)); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: all .4s cubic-bezier(.4,0,.2,1); cursor: pointer; }
+    .clip-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--border-hover); box-shadow: 0 25px 60px rgba(0,153,255,.15); }
+    .clip-media { position: relative; background: #0e0e0e; aspect-ratio: 16/9; overflow: hidden; }
+    .clip-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+    .clip-card:hover .clip-media img { transform: scale(1.1); }
+    .clip-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.5)); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .4s ease; }
+    .clip-card:hover .clip-overlay { opacity: 1; }
+    .play-btn { width: 60px; height: 60px; background: rgba(0,153,255,.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; transform: scale(0); transition: transform .4s cubic-bezier(.4,0,.2,1); }
+    .clip-card:hover .play-btn { transform: scale(1); }
+    .section { padding: 80px 0; max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; position: relative; }
+    .section-title { text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; background: linear-gradient(135deg, #fff 0%, #8bd3ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .section-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 1.1rem; }
+    .plans-grid, .clips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin-top: 24px; }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .stagger { animation: staggerIn .6s cubic-bezier(.4,0,.2,1) forwards; opacity: 0; }
+    .stagger:nth-child(1) { animation-delay: 0.1s; }
+    .stagger:nth-child(2) { animation-delay: 0.2s; }
+    .stagger:nth-child(3) { animation-delay: 0.3s; }
+    .stagger:nth-child(4) { animation-delay: 0.4s; }
+    .stagger:nth-child(5) { animation-delay: 0.5s; }
+    .stagger:nth-child(6) { animation-delay: 0.6s; }
+    @keyframes staggerIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .footer { border-top: 1px solid var(--border); padding: 60px 0 30px; margin-top: 80px; background: linear-gradient(180deg, transparent, rgba(0,153,255,.03)); }
+    .footer-grid { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+    .footer h3 { color: #8bd3ff; margin-bottom: 16px; font-size: 1.1rem; }
+    .footer a { color: var(--text-secondary); text-decoration: none; display: inline-block; margin: 4px 0; transition: all .3s ease; position: relative; }
+    .footer a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--primary); transition: width .3s ease; }
+    .footer a:hover { color: var(--primary); transform: translateX(5px); }
+    .footer a:hover::after { width: 100%; }
+    #toTop { position: fixed; right: 24px; bottom: 24px; width: 50px; height: 50px; opacity: 0; visibility: hidden; transition: all .4s cubic-bezier(.4,0,.2,1); background: rgba(0,153,255,.1); border: 1px solid rgba(0,153,255,.3); padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); cursor: pointer; backdrop-filter: blur(10px); }
+    #toTop:hover { background: var(--primary); color: white; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,153,255,.4); }
+    #toTop.show { opacity: 1; visibility: visible; }
+    .mobile-menu { display: none; background: none; border: 1px solid var(--border); color: var(--text-primary); font-size: 20px; padding: 8px 12px; border-radius: 10px; cursor: pointer; transition: all .3s ease; }
+    .mobile-menu:hover { background: rgba(0,153,255,.1); border-color: rgba(0,153,255,.3); }
+    .skeleton { background: linear-gradient(90deg, rgba(255,255,255,.05) 25%, rgba(255,255,255,.1) 50%, rgba(255,255,255,.05) 75%); background-size: 200% 100%; animation: skeleton 1.5s ease-in-out infinite; border-radius: 8px; height: 20px; margin: 10px 0; }
+    @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; text-align: center; padding: 60px 24px; }
+      .nav-menu { display: none; position: absolute; top: 100%; right: 0; background: rgba(10,10,10,.98); backdrop-filter: blur(20px); flex-direction: column; padding: 20px; border-radius: 0 0 16px 16px; border: 1px solid var(--border); border-top: none; min-width: 200px; }
+      .nav-menu.active { display: flex; }
+      .mobile-menu { display: block; }
+      .hero h1 { font-size: 2rem; }
+      .plans-grid, .clips-grid { grid-template-columns: 1fr; }
     }
-
-    #bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; filter: blur(16px) saturate(120%); opacity: .8; }
-
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 10;
-      backdrop-filter: saturate(140%) blur(10px);
-      background: linear-gradient(180deg, rgba(11,18,32,0.92), rgba(11,18,32,0.65));
-      border-bottom: 1px solid rgba(125,211,252,0.12);
-      transform: translateY(-100%);
-      transition: transform 900ms var(--ease);
-    }
-    header.enter { transform: translateY(0); }
-
-    .navwrap { max-width: var(--container); margin: 0 auto; padding: 14px 20px; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .4px; }
-    .brand .dot { width: 10px; height: 10px; border-radius: 999px; background: linear-gradient(45deg, var(--brand), var(--brand-2)); box-shadow: 0 0 18px rgba(125,211,252,.5); }
-
-    nav a { color: var(--text); opacity: .7; text-decoration: none; padding: 10px 12px; border-radius: 10px; transition: 200ms var(--ease); font-weight: 600; }
-    nav a:hover { opacity: 1; background: rgba(255,255,255,0.06); }
-    nav a.active { opacity: 1; background: rgba(125,211,252,0.15); box-shadow: inset 0 0 0 1px rgba(125,211,252,0.25); }
-
-    .nav-right { display:flex; align-items:center; gap:10px; }
-    .chip { border:1px solid rgba(125,211,252,0.35); color: var(--text); background: rgba(255,255,255,0.03); padding:8px 12px; border-radius: 999px; cursor:pointer; transition: 200ms var(--ease); }
-    .chip:hover { transform: translateY(-1px); background: rgba(255,255,255,0.06); }
-
-    .spacer { height: 84px; }
-
-    main { position: relative; z-index: 1; }
-    .container { max-width: var(--container); margin: 0 auto; padding: 32px 20px 80px; }
-
-    h1,h2,h3,p { text-align: center; }
-    h1 { font-size: clamp(28px, 4vw, 44px); margin: 0 0 10px; }
-    h2 { font-size: clamp(22px, 3vw, 30px); margin: 26px 0 16px; }
-    p.lead { color: var(--muted); font-size: clamp(14px, 2vw, 18px); margin-bottom: 22px; }
-
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
-    .col-12 { grid-column: span 12; }
-    .col-6 { grid-column: span 6; }
-    .col-4 { grid-column: span 4; }
-    @media (max-width: 900px){ .col-6 { grid-column: span 12; } .col-4 { grid-column: span 12; } }
-
-    .card { background: var(--card); border: 1px solid rgba(125,211,252,0.12); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; position: relative; overflow: hidden;
-      width: 300px;
-      min-width: 280px;
-      max-width: 300px;
-      height: 150px;
-      min-height: 150px;
-      max-height: 150px;
-    }
-    .card .title { font-weight: 700; margin-bottom: 6px; }
-    .card .muted { color: var(--muted); font-size: .95em; }
-    .tags { display:flex; flex-wrap: wrap; gap: 16px; justify-content: center; text-decoration:none; transition: 220ms var(--ease)}
-    .tag { background: rgba(125,211,252,0.15); border: 1px solid rgba(125,211,252,0.25); padding: 6px 10px;  border-radius: 12px; font-size: 12px; }
-    .card2 { background: var(--card); border: 1px solid rgba(125,211,252,0.12); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; position: relative; overflow: hidden; }
-    .card3 { background: var(--card); border: 1px solid rgba(125,211,252,0.12); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; position: relative; overflow: hidden;
-      height: 130px;
-      min-height: 85px;
-      max-height: 130px;
-    }
-    .btn2 { display:inline-flex; align-items:center; gap:8px; background: linear-gradient(135deg, rgba(125,211,252,0.16), rgba(155,140,255,0.14)); border: 1px solid rgba(125,211,252,0.28); color:var(--text); padding: 4px 4px; border-radius: 12px; text-decoration:none; transition: 220ms var(--ease); 
-      max-width: 1000px;
-      max-height: 1000px;
-      padding-top: -110000px;
-    }
-
-
-    .btn { display:inline-flex; align-items:center; gap:8px; background: linear-gradient(135deg, rgba(125,211,252,0.16), rgba(155,140,255,0.14)); border: 1px solid rgba(125,211,252,0.28); color:var(--text); padding: 10px 14px; border-radius: 12px; text-decoration:none; transition: 220ms var(--ease); }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(125,211,252,0.22); }
-
-    section.view { display: none; }
-    section.view.active { display: block; }
-
-    .media { width: 100%; aspect-ratio: 16/9; border-radius: 12px; border:1px solid rgba(125,211,252,0.18); background: #0a1020; overflow: hidden; }
-    .media iframe, .media img { width: 100%; height: 100%; display: block; object-fit: cover; }
-
-    .modal { position: fixed; inset: 0; background: rgba(4,6,17,0.75); display:none; align-items:center; justify-content:center; z-index: 50; }
-    .modal.open { display:flex; animation: fadeIn 300ms var(--ease); }
-    .modal img { max-width: 92vw; max-height: 86vh; border-radius: 14px; border: 1px solid rgba(125,211,252,0.25); box-shadow: var(--shadow); }
-    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-
-    .reveal { opacity: 0; transform: translateY(14px) scale(.98); transition: 800ms var(--ease); }
-    .reveal.in { opacity: 1; transform: translateY(0) scale(1); }
-
-    html[dir="rtl"] nav a { font-weight: 700; }
-    html[dir="rtl"] .brand { flex-direction: row-reverse; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
-<body>
-  <canvas id="bgCanvas"></canvas>
-
-  <header id="siteHeader">
-    <div class="navwrap">
-      <div class="brand"><span class="dot"></span><span id="brandText">حازم</span></div>
-      <nav id="mainNav">
-        <a href="#home" data-route="home" class="active" data-i18n="nav.home">الرئيسية</a>
-        <a href="#projects" data-route="projects" data-i18n="nav.projects">المشاريع</a>
-        <a href="#previews" data-route="previews" data-i18n="nav.previews">المعاينات</a>
-        <a href="#contact" data-route="contact" data-i18n="nav.contact">التواصل</a>
+<body>  
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="particles"></div>
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo" onclick="window.location.href='#contact'">
+        <img src="https://cdn.discordapp.com/avatars/272637834194714626/96fbee6b6c4023332797881b73ba6fa1.png" alt="KR"/>
+        <span id="Name">حازم</span>
+      </div>
+      <nav class="nav-menu" id="navMenu">
+        <a class="nav-link" href="#home" data-i18n="nav.home">الرئيسية</a>
+        <a class="nav-link" href="#projects" data-i18n="nav.projects">المشاريع</a>
+        <a class="nav-link" href="#clips" data-i18n="nav.clips">المقاطع</a>
+        <a class="nav-link" href="#contact" data-i18n="nav.contact">التواصل</a>
       </nav>
-      <div class="nav-right">
-        <button class="chip" id="langToggle" title="Language">EN</button>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button id="lang" class="lang-btn">EN</button>
+        <button class="mobile-menu" id="mobileMenuBtn" aria-label="Open menu">☰</button>
       </div>
     </div>
   </header>
-  <div class="spacer"></div>
 
-  <main>
-    <section id="home" class="view active">
-      <div class="container">
-        <div class="grid">
-          <div class="col-12">
-            <h1 class="reveal" data-i18n="home.title">أهلاً! أنا حازم — مطوّر نظم وخوادم ألعاب</h1>
-            <p class="lead reveal" data-i18n="home.subtitle">هنا أعرض أفضل شغلي: سكربتات، أنظمة، وواجهات مخصصة. كلها بنفس الثيم والحركة السلسة 👋</p>
-          </div>
-          <div class="col-12">
-            <h2 class="reveal" data-i18n="home.featured">أبرز المشاريع</h2>
-          </div>
-        </div>
-        <div id="featuredGrid" class="grid reveal"></div>
-        <div class="col-12" style="margin-top:22px; text-align:center;">
-          <a class="btn" href="#projects" data-i18n="home.seeAll">شوف كل المشاريع</a>
-        </div>
+  <section class="hero" id="home">
+    <div class="reveal hero-content">
+      <h1 id="heroTitle">أهلاً! أنا حازم — مطوّر نظم وخوادم ألعاب</h1>
+      <p id="heroSub">هنا أعرض أفضل شغلي: سكربتات، أنظمة، وواجهات مخصصة.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-wrapper">
+        <img id="heroImg" class="hero-img" src="" alt="KR preview image" loading="lazy" decoding="async"/>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="projects" class="view">
-      <div class="container">
-        <h2 class="reveal" data-i18n="projects.title">كل المشاريع العامة</h2>
-        <p class="lead reveal" data-i18n="projects.subtitle">يتم جلبها أوتوماتيكياً من GitHub مع استثناءات من القائمة السوداء.</p>
-        <div id="projectsGrid" class="grid reveal"></div>
-        <div id="projectsError" class="col-12" style="display:none; text-align:center; color:var(--danger); margin-top:16px;"></div>
-      </div>
-    </section>
+  <section class="section reveal" id="projects">
+    <h2 class="section-title" data-i18n="sections.highlight">أبرز المشاريع</h2>
+    <p class="section-subtitle" data-i18n="sections.publicAll">كل المشاريع العامة.</p>
+    <div id="projectsGrid" class="plans-grid"><div class="card stagger"></div><div class="card stagger"></div><div class="card stagger"></div></div>
+    <div id="projectsError" style="text-align:center;color:#ff6b6b;margin-top:16px;display:none"></div>
+    <div style="text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center">
+      <button id="loadMore" class="mini-btn" style="display:none" data-i18n="actions.more">عرض المزيد</button>
+      <button id="retryBtn" class="mini-btn" style="display:none" data-i18n="actions.retry">إعادة المحاولة</button>
+    </div>
+  </section>
 
-    <section id="previews" class="view">
-      <div class="container">
-        <h2 class="reveal" data-i18n="previews.title">معاينات وتجارب</h2>
-        <div id="previewsGrid" class="grid reveal"></div>
-      </div>
-    </section>
+  <section class="section reveal" id="clips">
+    <h2 class="section-title" data-i18n="sections.clips">المقاطع</h2>
+    <p class="section-subtitle muted" data-i18n="sections.clipsSub">مقاطع قصيرة لواجهات وأنظمة طوّرتها.</p>
+    <div id="clipsGrid" class="clips-grid"></div>
+  </section>
 
-    <section id="contact" class="view">
-      <div class="container">
-        <h2 class="reveal" data-i18n="contact.title">
-          عنّي والتواصل
-        </h2>
-        <div class="grid reveal">
-          <div class="col-6">
-            <div class="card3">
-              <div class="title" data-i18n="contact.about">نبذة سريعة</div>
-              <p id="aboutText" class="muted"
-                 data-ar="مطوّر فُل-ستاك متخصص في FiveM ولوا + React/NUI، مع خبرة في تصميم أنظمة اقتصادية، واجهات متقدمة، وتكاملات مع Discord وMySQL."
-                 data-en="Full-stack developer specialized in FiveM, Lua + React/NUI, experienced in economic systems, advanced UIs, and integrations with Discord & MySQL.">
-              </p>
-              <div class="tags" id="basicFacts"></div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="card3">
-              <div class="title" data-i18n="contact.links">وسائل التواصل</div>
-              <div style="display:flex; flex-direction:row; flex-wrap:wrap; padding-top: 20px; gap:10px; align-items:center; justify-content:center;">
-                <a class="btn2" id="emailLink" href="#">Email</a>
-                <a class="btn2" id="discordLink" href="#">Discord</a>
-                <a class="btn2" id="siteLink" href="#" target="_blank" rel="noopener">Website</a>
-              </div>
-            </div>
-          </div>
+  <section class="section reveal" id="contact">
+    <h2 class="section-title" data-i18n="sections.aboutContact">عنّي والتواصل</h2>
+    <p class="section-subtitle" data-i18n="sections.bio">نبذة سريعة</p>
+    <div class="features-grid" style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+      <div class="card stagger">
+        <h3 style="margin-bottom:6px" data-i18n="contact.title">وسائل التواصل</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="mini-btn" href="mailto:kinger.noro@gmail.com" data-i18n="actions.email">Email</a>
+          <a class="mini-btn" href="https://discord.gg/3mGCt7M8sd" target="_blank" rel="noopener" data-i18n="actions.discord">Discord</a>
+          <a class="mini-btn" href="https://ISKinGeR.github.io" target="_blank" rel="noopener" data-i18n="actions.website">Website</a>
         </div>
       </div>
-    </section>    
-  </main>
+      <div class="card stagger">
+        <h3 style="margin-bottom:6px" data-i18n="stack.title">الخبرات</h3>
+        <p class="muted">Lua / FiveM — React (NUI) — Discord — MySQL</p>
+      </div>
+    </div>
+  </section>
 
-  <div class="modal" id="imgModal" aria-hidden="true"><img alt="preview" /></div>
+  <footer class="footer" id="footer">
+    <div class="footer-grid">
+      <div class="reveal">
+        <h3>KR</h3>
+        <a href="mailto:kinger.noro@gmail.com">kinger.noro@gmail.com</a><br/>
+        <a href="https://ISKinGeR.github.io" target="_blank" rel="noopener">ISKinGeR.github.io</a><br/>
+        <a href="https://discord.gg/3mGCt7M8sd" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div class="reveal">
+        <h3 data-i18n="nav.title">التنقل</h3>
+        <a href="#home" data-i18n="nav.home">الرئيسية</a><br/>
+        <a href="#projects" data-i18n="nav.projects">المشاريع</a><br/>
+        <a href="#clips" data-i18n="nav.clips">المقاطع</a><br/>
+        <a href="#contact" data-i18n="nav.contact">التواصل</a>
+      </div>
+      <div class="reveal">
+        <h3 data-i18n="stack.title">الخبرات</h3>
+        <span>Lua / FiveM</span><br/><span>React (NUI)</span><br/><span>Discord + MySQL</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="toTop" aria-label="Back to top">↑</button>
 
   <script>
+    const HERO_IMG = "https://cdn.discordapp.com/avatars/272637834194714626/96fbee6b6c4023332797881b73ba6fa1.png?size=1024";
+    const GH_USERNAME = "ISKinGeR";
+    const FEATURED_REPOS = ["Mythic-gangs","mythic-inventory","KR-ahs"];
+    const REPO_BLACKLIST = ["NgrokRDP"];
+    const PAGE_SIZE = 9;
+    let _reposCache = []; let _page = 0;
 
-    const GH_USERNAME = "ISKinGeR"; 
+    function langDot(lang){const m={JavaScript:"#f1e05a",TypeScript:"#3178c6",Lua:"#000080",Python:"#3572A5",C:"#555555",CSharp:"#178600",CPlusPlus:"#f34b7d",Shell:"#89e051",HTML:"#e34c26",CSS:"#563d7c",Go:"#00ADD8"};const c=m[lang]||"#8bd3ff";return '<span class="lang-dot" style="background:'+c+'"></span>'}
+    function topicsChips(r){const t=r.topics||[];return t.slice(0,4).map(x=>`<span class="topic">#${x}</span>`).join("")}
 
-    const FEATURED_REPOS = [
-      "Mythic-gangs", "mythic-inventory", "KR-ahs"
-    ];
+    function repoCard(r){
+      const el=document.createElement("div"); el.className="card stagger";
+      const date=new Date(r.pushed_at).toLocaleDateString();
+      const hasDemo=r.homepage&&r.homepage.trim();
+      el.innerHTML=`
+        <div class="plan-header">
+          <img src="https://ext.same-assets.com/2927020613/3989641502.svg" class="plan-icon" alt="repo"/>
+          <div>
+            <div class="plan-type">${langDot(r.language||"")}${r.language||"Repository"}</div>
+            <div class="plan-title">${r.name}</div>
+          </div>
+        </div>
+        <p class="plan-desc">${r.description? r.description.replace(/</g,"&lt;"):""}</p>
+        <div class="meta-row">
+          <span class="badge">★ ${r.stargazers_count}</span>
+          <span class="badge">${date}</span>
+          <a class="mini-btn" href="${r.html_url}" target="_blank" rel="noopener" data-i18n="actions.github">GitHub</a>
+          ${hasDemo?`<a class="mini-btn" href="${r.homepage}" target="_blank" rel="noopener" data-i18n="actions.demo">Demo</a>`:""}
+        </div>
+        <div class="topics">${topicsChips(r)}</div>`;
+      return el;
+    }
 
-    const REPO_BLACKLIST = [
-      "NgrokRDP"
-    ];
-
-    const PREVIEWS = [
-      { type: 'youtube', src: 'https://www.youtube.com/watch?v=-Z4KFc-yi30&ab_channel=KinGeR', title: { ar: 'سكريبت الميث الجديد ل mythic-framework', en: 'The new meth script for mythic-framework' }, desc: { ar: 'تجربة.', en: 'preview.' } },
-      { type: 'youtube', src: 'https://www.youtube.com/watch?v=lXqu17aoUZA&ab_channel=KinGeR', title: { ar: 'تجربة سكربت الدروب | نسخة اولية', en: 'Test drops script | WIP' }, desc: { ar: '', en: '' } },
-      { type: 'youtube', src: 'https://www.youtube.com/watch?v=Auypl9JHOlc&ab_channel=KinGeR', title: { ar: 'تجربة سكربت التصنيع | نسخة اولية', en: 'Test crafting script | WIP' }, desc: { ar: '', en: '' } },
-    ];
-
-    const PROFILE = {
-      brand: 'حازم',
-      name: 'حازم',
-      age: 24,
-      location: { ar: 'السعودية', en: 'Saudi Arabia' },
-      roles: ['Lua', 'Python', 'FiveM Developer', 'Automate scripts maker', 'React (NUI)'],
-      email: 'kinger.noro@gmail.com',
-      discord: 'My Discord Server | ZOLO',
-      website: 'https://ISKinGeR.github.io',
-      cvUrl: 'https://example.com/your-cv.pdf'
-    };
-
-    const I18N = {
-      ar: {
-        'nav.home': 'الرئيسية', 'nav.projects': 'المشاريع', 'nav.previews': 'المعاينات', 'nav.contact': 'التواصل',
-        'home.title': 'أهلاً! أنا حازم — مطوّر نظم وخوادم ألعاب',
-        'home.subtitle': 'هنا أعرض أفضل شغلي: سكربتات، أنظمة، وواجهات مخصصة. 👋',
-        'home.featured': 'أبرز المشاريع', 'home.seeAll': 'شوف كل المشاريع',
-        'projects.title': 'كل المشاريع العامة', 'projects.subtitle': 'Auto-fetched from GitHub.',
-        'previews.title': 'معاينات وتجارب',
-        'contact.title': 'عنّي والتواصل', 'contact.about': 'نبذة سريعة', 'contact.skills': 'المهارات', 'contact.links': 'وسائل التواصل', 'contact.cv': 'السيرة الذاتية', 'contact.cvText': 'تحتاج نسخة PDF؟ حمّلها من هنا.', 'contact.download': 'تحميل الـ CV'
-      },
-      en: {
-        'nav.home': 'Home', 'nav.projects': 'Projects', 'nav.previews': 'Previews', 'nav.contact': 'Contact',
-        'home.title': 'Hi! I’m Hazem — systems & game servers developer',
-        'home.subtitle': 'I showcase my best work: scripts, systems, and custom UIs👋',
-        'home.featured': 'Featured Projects', 'home.seeAll': 'See all projects',
-        'projects.title': 'All Public Projects', 'projects.subtitle': 'Auto-fetched from GitHub.',
-        'previews.title': 'Previews & Demos',
-        'contact.title': 'About & Contact', 'contact.about': 'Quick Bio', 'contact.skills': 'Skills', 'contact.links': 'Contacts', 'contact.cv': 'Curriculum Vitae', 'contact.cvText': 'Need a PDF version? Grab it here.', 'contact.download': 'Download CV'
+    async function fetchRepos(){
+      const url=`https://api.github.com/users/${GH_USERNAME}/repos?per_page=100&sort=updated`;
+      const res=await fetch(url,{headers:{"Accept":"application/vnd.github+json"}});
+      if(!res.ok){const t=await res.text();throw new Error("GitHub API: "+res.status+" "+t)}
+      const data=await res.json();
+      const filtered=data.filter(r=>!r.private&&!r.archived&&!REPO_BLACKLIST.includes(r.name));
+      filtered.sort((a,b)=>new Date(b.pushed_at)-new Date(a.pushed_at));
+      if(FEATURED_REPOS?.length){
+        filtered.sort((a,b)=>{const ai=FEATURED_REPOS.indexOf(a.name),bi=FEATURED_REPOS.indexOf(b.name);const aF=ai===-1?1e9:ai,bF=bi===-1?1e9:bi;return aF-bF||(new Date(b.pushed_at)-new Date(a.pushed_at))})
       }
-    };
-
-
-    const state = {
-      lang: (localStorage.getItem('lang') || 'ar'),
-      repos: [],
-    };
-
-    const qs = (s, r=document) => r.querySelector(s);
-    const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
-
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => qs('#siteHeader').classList.add('enter'), 120);
-    });
-
-    function applyRoute() {
-      const route = (location.hash.replace('#','') || 'home');
-      qsa('section.view').forEach(s => s.classList.remove('active'));
-      const el = qs('#'+route) || qs('#home');
-      el.classList.add('active');
-      qsa('nav a').forEach(a => a.classList.toggle('active', a.dataset.route === route));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    window.addEventListener('hashchange', applyRoute);
-
-    function setLang(lang) {
-      state.lang = lang;
-      localStorage.setItem('lang', lang);
-      document.documentElement.lang = lang;
-      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-      qs('#langToggle').textContent = (lang === 'ar') ? 'EN' : 'AR';
-      qsa('[data-i18n]').forEach(node => {
-        const key = node.getAttribute('data-i18n');
-        const pack = I18N[lang] || {};
-        if (pack[key]) node.textContent = pack[key];
-      });
-      qs('#brandText').textContent = (lang === 'ar') ? (PROFILE.brand || 'حازم') : (PROFILE.brand_en || 'Hazem');
-      renderProfile();
-      renderPreviews();
-    }
-
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) e.target.classList.add('in');
-    }, { threshold: 0.18 });
-    function armReveals() { qsa('.reveal').forEach(el => io.observe(el)); }
-
-    async function fetchRepos() {
-      const url = `https://api.github.com/users/${GH_USERNAME}/repos?per_page=100&sort=updated`;
-      const res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
-      if (!res.ok) throw new Error('GitHub API error: ' + res.status);
-    
-      const data = await res.json();
-      const filtered = data.filter(r => !r.private && !r.archived && !REPO_BLACKLIST.includes(r.name));
-      filtered.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
       return filtered;
     }
 
-    function renderFeatured(repos) {
-      const grid = qs('#featuredGrid');
-      const featuredTitle = qs('[data-i18n="home.featured"]').parentElement;
-      grid.innerHTML = '';
+    function renderProjects(p){
+      const grid=document.getElementById("projectsGrid");
+      const start=p*PAGE_SIZE,slice=_reposCache.slice(start,start+PAGE_SIZE);
+      if(p===0)grid.innerHTML="";
+      slice.forEach(r=>grid.appendChild(repoCard(r)));
+      document.getElementById("loadMore").style.display=(start+PAGE_SIZE<_reposCache.length)?"inline-flex":"none";
+    }
 
-      const pick = (FEATURED_REPOS && FEATURED_REPOS.length)
-        ? repos.filter(r => FEATURED_REPOS.includes(r.name))
-        : repos.slice(0, 6);
-      const selection = pick.slice(0, 6);
-
-      if (selection.length === 0) {
-        featuredTitle.style.display = 'none';
-        grid.style.display = 'none';
-        return;
-      } else {
-        featuredTitle.style.display = '';
-        grid.style.display = '';
-      }
-
-      grid.style.display = '';
-      grid.style.gridTemplateColumns = '';
-      grid.style.justifyContent = '';
-      grid.style.alignItems = '';
-
-      if (selection.length === 1) {
-        grid.style.display = 'flex';
-        grid.style.justifyContent = 'center';
-        grid.appendChild(repoCard(selection[0], 'col-6'));
-      } else if (selection.length === 2) {
-        grid.style.display = 'flex';
-        grid.style.justifyContent = 'center';
-        grid.style.gap = '20px';
-        selection.forEach(r => {
-          const el = repoCard(r, 'col-6');
-          el.style.maxWidth = '480px';
-          grid.appendChild(el);
-        });
-      } else {
-        grid.style.display = 'grid';
-        grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
-        selection.forEach(r => grid.appendChild(repoCard(r, 'col-4')));
+    async function loadRepos(){
+      const err=document.getElementById("projectsError");
+      try{
+        if(!_reposCache.length){_reposCache=await fetchRepos()}
+        _page=0;renderProjects(_page);
+      }catch(e){
+        err.style.display="block";
+        err.textContent=(current==="ar"?"فشل جلب المشاريع من GitHub. جرّب لاحقاً.":"Failed to fetch from GitHub. Try later.");
+        document.getElementById("retryBtn").style.display="inline-flex";
       }
     }
 
-    function renderProjects(repos) {
-      const grid = qs('#projectsGrid');
-      grid.innerHTML = '';
-      repos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
-      repos.forEach(r => grid.appendChild(repoCard(r, 'col-4')));
-    }
-
-    function repoCard(r, col = 'col-4') {
-      const c = document.createElement('div');
-      c.className = `${col}`;
-      c.innerHTML = `
-        <div class="card" role="article">
-          <div class="title">${r.name}</div>
-          <div class="muted">${r.description || ''}</div>
-          <div class="tags">
-            <span class="tag">★ ${r.stargazers_count}</span>
-            ${r.language ? `<span class="tag">${r.language}</span>` : ''}
-            <span class="tag">${new Date(r.pushed_at).toLocaleDateString()}</span>
-          </div>
-          <div style="text-align:center; margin-top:12px;">
-            <a class="btn" href="${r.html_url}" target="_blank" rel="noopener">GitHub</a>
-          </div>
+    const CLIPS = [
+      {
+        ytid: "-Z4KFc-yi30",
+        title: {
+          ar: "سكريبت الميث الجديد ل mythic-framework",
+          en: "The new meth script for mythic-framework",
+        },
+        desc: {
+          ar: "تجربة.",
+          en: "preview.",
+        },
+        tags: ["FiveM", "Lua", "Mythic"],
+      },
+      {
+        ytid: "lXqu17aoUZA",
+        title: {
+          ar: "تجربة سكربت الدروب | نسخة اولية",
+          en: "Test drops script | WIP",
+        },
+        desc: {
+          ar: "",
+          en: "",
+        },
+        tags: ["FiveM", "Drops", "Script"],
+      },
+      {
+        ytid: "Auypl9JHOlc",
+        title: {
+          ar: "تجربة سكربت التصنيع | نسخة اولية",
+          en: "Test crafting script | WIP",
+        },
+        desc: {
+          ar: "",
+          en: "",
+        },
+        tags: ["FiveM", "Crafting", "Script"],
+      },
+    ];
+    function ytThumb(id){return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+    function clipCard(clip){
+      const el=document.createElement("div"); el.className="clip-card stagger";
+      const t=(current==="ar"?clip.title.ar:clip.title.en);
+      const d=(current==="ar"?clip.desc.ar:clip.desc.en);
+      const chips=(clip.tags||[]).map(x=>`<span class="topic">#${x}</span>`).join("");
+      el.innerHTML=`
+        <div class="clip-media" data-ytid="${clip.ytid}">
+          <img src="${ytThumb(clip.ytid)}" alt="${t}" loading="lazy"/>
+          <div class="clip-overlay"><div class="play-btn">▶</div></div>
+        </div>
+        <div style="padding:16px">
+          <div style="font-size:1.2rem;font-weight:700;margin-bottom:8px">${t}</div>
+          <div style="color:var(--text-secondary);font-size:0.95rem">${d}</div>
+          <div class="topics" style="margin-top:12px">${chips}</div>
         </div>`;
-      return c;
+      setTimeout(()=>{
+        const media=el.querySelector(".clip-media");
+        media.style.cursor="pointer";
+        media.addEventListener("click",()=>{
+          const id=media.getAttribute("data-ytid");
+          media.innerHTML=`<iframe width="100%" height="100%" style="border:0" src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+        },{once:true});
+      },0);
+      return el;
+    }
+    function renderClips(){const grid=document.getElementById("clipsGrid");grid.innerHTML="";CLIPS.forEach(c=>grid.appendChild(clipCard(c)))}
+
+    const I18N={
+      ar:{Name:"حازم",nav:{home:"الرئيسية",projects:"المشاريع",clips:"المقاطع",contact:"التواصل",title:"التنقل"},hero:{title:"أهلاً! أنا حازم — مطوّر نظم وخوادم ألعاب",sub:"هنا أعرض أفضل شغلي: سكربتات، أنظمة، وواجهات مخصصة."},sections:{highlight:"أبرز المشاريع",publicAll:"كل المشاريع العامة.",clips:"المقاطع",clipsSub:"مقاطع قصيرة لواجهات وأنظمة طوّرتها.",aboutContact:"عنّي والتواصل",bio:"نبذة سريعة"},actions:{more:"عرض المزيد",retry:"إعادة المحاولة",github:"GitHub",demo:"Demo",email:"Email",discord:"Discord",website:"Website"},contact:{title:"وسائل التواصل"},stack:{title:"الخبرات"}},
+      en:{Name:"Hazem",nav:{home:"Home",projects:"Projects",clips:"Clips",contact:"Contact",title:"Navigation"},hero:{title:"Hi! I'm Hazem — Systems & Game Server Dev",sub:"Showcasing my best work: scripts, systems, and custom UIs."},sections:{highlight:"Highlighted Projects",publicAll:"All public repos.",clips:"Clips",clipsSub:"Short videos of UIs/systems.",aboutContact:"About & Contact",bio:"Quick bio"},actions:{more:"Load More",retry:"Retry",github:"GitHub",demo:"Demo",email:"Email",discord:"Discord",website:"Website"},contact:{title:"Contact"},stack:{title:"Experience"}}
+    };
+    let current="ar";
+
+    function applyLang(lang){
+      const t=I18N[lang]; current=lang;
+      document.documentElement.lang=lang;
+      document.documentElement.dir=(lang==="ar"?"rtl":"ltr");
+      document.getElementById("Name").textContent=t.Name;
+      document.querySelectorAll('[data-i18n^="nav."]').forEach(el=>{const k=el.dataset.i18n.split(".")[1];el.textContent=t.nav[k]});
+      document.getElementById("heroTitle").textContent=t.hero.title;
+      document.getElementById("heroSub").textContent=t.hero.sub;
+      document.querySelectorAll('[data-i18n^="sections."]').forEach(el=>{const k=el.dataset.i18n.split(".")[1];el.textContent=t.sections[k]});
+      document.querySelectorAll('[data-i18n^="actions."]').forEach(el=>{const k=el.dataset.i18n.split(".")[1];el.textContent=t.actions[k]});
+      document.querySelectorAll('[data-i18n^="contact."]').forEach(el=>{const k=el.dataset.i18n.split(".")[1];el.textContent=t.contact[k]});
+      document.querySelectorAll('[data-i18n^="stack."]').forEach(el=>{const k=el.dataset.i18n.split(".")[1];el.textContent=t.stack[k]});
+      document.getElementById("lang").textContent=(lang==="ar"?"EN":"AR");
+      renderClips();
+      document.querySelectorAll('[data-i18n="actions.github"]').forEach(el=>el.textContent=t.actions.github);
+      document.querySelectorAll('[data-i18n="actions.demo"]').forEach(el=>el.textContent=t.actions.demo);
+      document.querySelectorAll('[data-i18n="actions.email"]').forEach(el=>el.textContent=t.actions.email);
+      document.querySelectorAll('[data-i18n="actions.discord"]').forEach(el=>el.textContent=t.actions.discord);
+      document.querySelectorAll('[data-i18n="actions.website"]').forEach(el=>el.textContent=t.actions.website);
     }
 
-    function toYouTubeEmbed(u) {
-      try {
-        const url = new URL(u);
-        const host = url.hostname;
-        if (host.includes('youtu.be')) {
-          const id = url.pathname.slice(1);
-          const start = ytStartParam(url);
-          return `https://www.youtube.com/embed/${id}${start}`;
-        }
-        if (host.includes('youtube') && url.pathname.startsWith('/watch')) {
-          const id = url.searchParams.get('v');
-          const start = ytStartParam(url);
-          return id ? `https://www.youtube.com/embed/${id}${start}` : u;
-        }
-        if (host.includes('youtube') && url.pathname.startsWith('/embed/')) {
-          return u;
-        }
-      } catch {}
-      return u;
+    let _lastY=window.scrollY; let _dir="down";
+    window.addEventListener("scroll",()=>{const y=window.scrollY; _dir=(y>_lastY)?"down":"up"; _lastY=y},{passive:true});
+
+    const _io=new IntersectionObserver((entries)=>{entries.forEach((e)=>{if(e.isIntersecting){e.target.classList.add("in")}else{if(_dir==="up"){e.target.classList.remove("in")}}})},{root:null,rootMargin:"0px 0px -10% 0px",threshold:0.12});
+    function observeAll(){document.querySelectorAll(".reveal, .stagger").forEach(el=>_io.observe(el))}
+
+    function handleHeaderScroll(){
+      const topBtn=document.getElementById("toTop");
+      const header=document.querySelector(".header");
+      if(window.scrollY>50){header.classList.add("scrolled")}else{header.classList.remove("scrolled")}
+      if(window.scrollY>400){topBtn.classList.add("show")}else{topBtn.classList.remove("show")}
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("scrollProgress").style.width = scrolled + "%";
     }
-    function ytStartParam(url) {
-      const t = url.searchParams.get('t') || url.searchParams.get('start');
-      if (!t) return '';
-      const m = String(t).match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?|^\d+$/);
-      if (!m) return '';
-      if (/^\d+$/.test(t)) return `?start=${t}`;
-      const h = parseInt(m[1] || 0, 10), mn = parseInt(m[2] || 0, 10), s = parseInt(m[3] || 0, 10);
-      const total = (h*3600) + (mn*60) + s;
-      return total ? `?start=${total}` : '';
-    }
-    
-    function renderPreviews() {
-      const grid = qs('#previewsGrid');
-      grid.innerHTML = '';
-      PREVIEWS.forEach(item => {
-        const wrap = document.createElement('div');
-        wrap.className = 'col-6';
-        const title = item.title?.[state.lang] || item.title?.en || '';
-        const desc = item.desc?.[state.lang] || item.desc?.en || '';
-        let media = '';
-        if (item.type === 'youtube') {
-          const embed = toYouTubeEmbed(item.src);
-          media = `
-            <div class="media">
-              <iframe
-                src="${embed}"
-                title="YouTube"
-                loading="lazy"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-                frameborder="0"></iframe>
-            </div>`;
-        } else if (item.type === 'image') {
-          media = `<div class="media"><img src="${item.src}" alt="preview" loading="lazy"/></div>`;
-        } else if (item.type === 'link') {
-          media = `<a class="media" href="${item.href}" target="_blank" rel="noopener"><img src="${item.thumb}" alt="link" loading="lazy"/></a>`;
-        }
-        wrap.innerHTML = `
-          <div class="card2">
-            ${media}
-            <div class="title" style="margin-top:10px;">${title}</div>
-            <div class="muted">${desc}</div>
-          </div>`;
-        if (item.type === 'image') {
-          wrap.querySelector('img').addEventListener('click', () => openLightbox(item.src));
-        }
-        grid.appendChild(wrap);
-      });
+    function parallaxSlow(){
+      const img = document.getElementById("heroImg");
+      if (!img) return;
+      const y = window.pageYOffset;
+      const rate = y * -0.06;
+      img.style.setProperty('--parallaxY', rate + 'px');
     }
 
-    function openLightbox(src) {
-      const m = qs('#imgModal');
-      m.querySelector('img').src = src;
-      m.classList.add('open');
-      m.setAttribute('aria-hidden', 'false');
+    function createParticles(n){
+      const p=document.querySelector('.particles');
+      for(let i=0;i<n;i++){
+        const div=document.createElement('div');
+        div.className='particle';
+        div.style.left=Math.random()*100+'%';
+        div.style.animationDuration=(Math.random()*10+10)+'s';
+        div.style.animationDelay=Math.random()*5+'s';
+        div.style.transform=`translateX(${Math.random()*200-100}px)`;
+        p.appendChild(div);
+      }
     }
-    qs('#imgModal').addEventListener('click', () => {
-      qs('#imgModal').classList.remove('open');
-      qs('#imgModal').setAttribute('aria-hidden', 'true');
+
+    function init(){ new SmoothScroll(document,120,80) }
+    function SmoothScroll(target, speed, smooth) {
+      if (target === document)
+        target = (document.scrollingElement
+          || document.documentElement
+          || document.body.parentNode
+          || document.body) // cross browser support for document scrolling
+
+      var moving = false
+      var pos = target.scrollTop
+      var frame = target === document.body
+        && document.documentElement
+        ? document.documentElement
+        : target // safari is the new IE
+
+      target.addEventListener('mousewheel', scrolled, { passive: false })
+      target.addEventListener('DOMMouseScroll', scrolled, { passive: false })
+
+      function scrolled(e) {
+        e.preventDefault(); // disable default scrolling
+        var delta = normalizeWheelDelta(e)
+        pos += -delta * speed
+        pos = Math.max(0, Math.min(pos, target.scrollHeight - frame.clientHeight)) // limit scrolling
+        if (!moving) update()
+      }
+
+      function normalizeWheelDelta(e) {
+        if (e.detail) {
+          if (e.wheelDelta)
+            return e.wheelDelta / e.detail / 40 * (e.detail > 0 ? 1 : -1) // Opera
+          else
+            return -e.detail / 3 // Firefox
+        } else
+          return e.wheelDelta / 120 // IE,Safari,Chrome
+      }
+
+      function update() {
+        moving = true
+        var delta = (pos - target.scrollTop) / smooth
+        target.scrollTop += delta
+        if (Math.abs(delta) > 0.5)
+          requestFrame(update)
+        else
+          moving = false
+      }
+
+      var requestFrame = function () { // requestAnimationFrame cross browser
+        return (
+          window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function (func) { window.setTimeout(func, 1000 / 50); }
+        );
+      }()
+    }
+
+    document.addEventListener("DOMContentLoaded",()=>{
+      createParticles(30);
+      const hero=document.getElementById("heroImg"); hero.src=HERO_IMG; if(hero.complete) hero.classList.add("loaded"); else hero.addEventListener("load",()=>hero.classList.add("loaded"),{once:true});
+      applyLang("ar");
+      loadRepos();
+      renderClips();
+      observeAll();
+
+      const btn=document.getElementById("mobileMenuBtn"); const menu=document.getElementById("navMenu");
+      if(btn&&menu){ btn.addEventListener("click",()=>{ menu.classList.toggle("active") }) }
+
+      document.getElementById("retryBtn").addEventListener("click",()=>{ document.getElementById("retryBtn").style.display="none"; document.getElementById("projectsError").style.display="none"; loadRepos() });
+      document.getElementById("loadMore").addEventListener("click",()=>{ _page++; renderProjects(_page); observeAll() });
+      document.getElementById("toTop").addEventListener("click",()=>{ window.scrollTo(0,0) });
+      document.getElementById("lang").addEventListener("click",()=>applyLang(current==="ar"?"en":"ar"));
+
+      document.body.style.opacity="0"; setTimeout(()=>{ document.body.style.transition="opacity .6s ease"; document.body.style.opacity="1" },100);
+      window.addEventListener("scroll",()=>{ handleHeaderScroll(); parallaxSlow() },{passive:true});
+      init();
     });
-
-    function renderProfile() {
-      qs('#brandText').textContent = (state.lang === 'ar' ? (PROFILE.brand || 'حازم') : (PROFILE.brand_en || 'Hazem'));
-      const facts = qs('#basicFacts');
-      facts.innerHTML = '';
-      const loc = (state.lang === 'ar' ? PROFILE.location?.ar : PROFILE.location?.en) || '';
-      const arr = [ ...PROFILE.roles ];
-      arr.forEach(t => { const span = document.createElement('span'); span.className = 'tag'; span.textContent = t; facts.appendChild(span); });
-      const emailLink = qs('#emailLink'); emailLink.href = `mailto:${PROFILE.email}`; emailLink.textContent = PROFILE.email;
-      const discordLink = qs('#discordLink'); discordLink.href = `https://discord.gg/3mGCt7M8sd`; discordLink.textContent = PROFILE.discord;
-      const siteLink = qs('#siteLink'); siteLink.href = PROFILE.website; siteLink.textContent = PROFILE.website.replace('https://','');
-    }
-
-    async function init() {
-      setLang(state.lang);
-      qs('#langToggle').addEventListener('click', () => setLang(state.lang === 'ar' ? 'en' : 'ar'));
-      applyRoute();
-      renderPreviews();
-      renderProfile();
-      try {
-        const repos = await fetchRepos();
-        state.repos = repos;
-        renderFeatured(repos);
-        renderProjects(repos);
-      } catch (e) {
-        qs('#projectsError').style.display = 'block';
-        qs('#projectsError').textContent = 'تعذر جلب المشاريع من GitHub. جرّب بعد قليل.';
-        console.error(e);
-      }
-      armReveals();
-      startBlob();
-    }
-
-
-    function startBlob(){
-      const c = qs('#bgCanvas');
-      const ctx = c.getContext('2d');
-      let w, h, dpr;
-
-      const blob = { x: 0.5, y: 0.25, r: 240, tx: 0.5, ty: 0.25, vx: 0, vy: 0 };
-      let particles = [];
-      let lastScrollY = window.scrollY || 0;
-      let scrollBias = 0;
-
-      function resize(){
-        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        w = c.width = Math.floor(innerWidth * dpr);
-        h = c.height = Math.floor(innerHeight * dpr);
-        c.style.width = innerWidth + 'px';
-        c.style.height = innerHeight + 'px';
-        seedParticles();
-      }
-
-      function seedParticles(){
-        const count = Math.min(140, Math.max(50, Math.floor((innerWidth * innerHeight) / 26000)));
-        particles = new Array(count).fill(0).map(() => {
-          const speed = (0.06 + Math.random()*0.24) * dpr;
-          const ang = Math.random() * Math.PI * 2;
-          return {
-            x: Math.random() * w,
-            y: Math.random() * h,
-            vx: Math.cos(ang) * speed,
-            vy: Math.sin(ang) * speed,
-            r: (1.8 + Math.random()*2.6) * dpr,
-            a: 0.18 + Math.random()*1.22
-          }
-        });
-      }
-
-      resize();
-      window.addEventListener('resize', resize);
-
-      let mx = 0.5, my = 0.3;
-      window.addEventListener('mousemove', (e)=>{
-        mx = e.clientX / innerWidth; my = e.clientY / innerHeight;
-        blob.tx = 0.15 + mx*0.7;
-        blob.ty = 0.10 + my*0.6;
-      });
-      window.addEventListener('scroll', ()=>{
-        const y = window.scrollY || 0;
-        const dy = Math.max(-200, Math.min(200, y - lastScrollY));
-        scrollBias = dy * 0.12 * (window.devicePixelRatio || 1);
-        lastScrollY = y;
-        const sc = Math.min(1, y / (innerHeight*1.2));
-        blob.r = 220 + sc*120;
-      }, { passive: true });
-
-      function step(){
-        const k = 0.08, damp = 0.85;
-        const dx = blob.tx - blob.x, dy = blob.ty - blob.y;
-        blob.vx = (blob.vx + dx*k) * damp;
-        blob.vy = (blob.vy + dy*k) * damp;
-        blob.x += blob.vx; blob.y += blob.vy;
-
-        ctx.clearRect(0,0,w,h);
-        const cx = blob.x * w, cy = blob.y * h, r = blob.r * dpr;
-        const g = ctx.createRadialGradient(cx, cy, r*0.2, cx, cy, r);
-        g.addColorStop(0, 'rgba(125,211,252,0.35)');
-        g.addColorStop(1, 'rgba(155,140,255,0.05)');
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.fill();
-
-        const mousePullX = (mx - 0.5) * 0.22 * dpr;
-        const mousePullY = (my - 0.5) * 0.18 * dpr;
-        scrollBias *= 0.92;
-
-        for (let i=0;i<particles.length;i++){
-          const p = particles[i];
-          p.x += p.vx + mousePullX;
-          p.y += p.vy + mousePullY + (scrollBias * 0.02);
-
-          const margin = 60 * dpr;
-          if (p.x < -margin) p.x = w + margin;
-          if (p.x > w + margin) p.x = -margin;
-          if (p.y < -margin) p.y = h + margin;
-          if (p.y > h + margin) p.y = -margin;
-
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(125,211,252,${p.a})`;
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          ctx.fill();
-        }
-
-        requestAnimationFrame(step);
-      }
-      step();
-    }
-
-    init();
   </script>
 </body>
 </html>
